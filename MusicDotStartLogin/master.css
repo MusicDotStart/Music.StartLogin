@@ -1,5 +1,9 @@
 ﻿html{
-    background-color:Black
+    background-color:black;
+    background-image:   url('piano.jpg');
+    background-size:    cover;                      /* <------ */
+    background-repeat:   no-repeat;
+    background-position:     center center;              /* optional, center the image */
 }
 
 .header{
@@ -14,6 +18,9 @@
 }
 
 h1{
+    /*font: 3em "Georgia italic", serif;*/
+     /*font: 3em "Helvetica Bold", sans-serif;*/
+   font-family: Helvetica, Arial;
     margin:0;
     height:95;
     color:orange;
@@ -30,12 +37,17 @@ h3{
 
 p{
     color:white;
+    font: 1em "Myriad Italic", sans-serif;
 }
 
 
 
 
 body {
+    /*background-image:url('gun.jpg');
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    overflow:hidden;*/
 }
 
 
