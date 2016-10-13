@@ -5,10 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link href="master.css" rel="stylesheet" />
-    <title></title>
+    <title>Music.Start Verify</title>
 </head>
 <body>
-    <h1>
+    <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td style="text-align: center">
+		    <h1>
         Verify your account
     </h1>
     <p> Enter the 8 digit number from the email you recieved.</p>
@@ -20,6 +23,10 @@
     <p>
         <asp:Button ID="btnVerify" runat="server" OnClick="btnVerify_Click" Text="Verify" />
         </p>
-    </form>
+        </form>
+                </td>
+            </tr>
+        
+        </table>
     </body>
 </html>

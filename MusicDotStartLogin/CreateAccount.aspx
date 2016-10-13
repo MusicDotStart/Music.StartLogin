@@ -14,15 +14,18 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <h1>Create Account</h1>
+
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+                <td style="text-align: center">
+			    <h1>Create Account</h1>
     <p>  
-        &nbsp;<asp:TextBox ID="tbUserName" runat="server"></asp:TextBox>&nbsp; Username
+        <asp:TextBox ID="tbUserName" runat="server" value ="Username" onfocus="UserFocused(this)"></asp:TextBox></p>
+    <p>
+        <asp:TextBox ID="tbPassword" runat="server" TextMode="Password" value="password" onfocus="PasswordFocused(this)"></asp:TextBox></p>
+        <p>
+            <asp:TextBox ID="tbAddress" runat="server" Width="354px" value="Email Address" onfocus="AddressFocused(this)"></asp:TextBox>
         </p>
-    <p>
-        <asp:TextBox ID="tbPassword" runat="server" TextMode="Password"></asp:TextBox>&nbsp; Password (must be longer than 8 characters)</p>
-    <p>
-        &nbsp;<asp:TextBox ID="tbAddress" runat="server" Width="354px"></asp:TextBox>
-&nbsp;Email address</p>
     <p>
         Once you submit, an email will be sent to your account.</p>
     <p>
@@ -32,6 +35,10 @@
     <p>
         <asp:Button ID="btnCheck" runat="server" OnClick="checkUName" Text="Submit" />
         </p>
+                </td>
+            </tr>
+        </table>
     </form>
+        <script type="text/javascript" src="Login.js"></script>
     </body>
 </html>
