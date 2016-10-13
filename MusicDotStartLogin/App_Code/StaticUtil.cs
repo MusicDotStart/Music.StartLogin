@@ -238,6 +238,25 @@ public static class StaticUtil
     }
 
 
+    public static bool PasswordReqMet(string p)
+    {
+        bool met = false;
+        var cap = p.IndexOfAny("ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray()) != -1;
+        var num = p.IndexOfAny("0123456789".ToCharArray()) != -1;
+        var spe = p.IndexOfAny("!@#$%^&".ToCharArray()) != -1;
+        if (cap && (num || spe))
+            met = true;
+        return met;      
+    }
+
+    public static bool UserReqmet(string u)
+    {
+        bool met = false;
+
+        return met;
+    }
+
+
 
 
 
