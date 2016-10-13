@@ -17,6 +17,7 @@ public partial class Login : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)  
     {
         //StaticUtil.SendMail("cncox5150@gmail.com", 8765);
+        //tbUserName.Attributes.Add("onfocus", "UserFocused(this)");
     }
     protected void tbPassword_TextChanged(object sender, EventArgs e) 
     {
@@ -116,5 +117,9 @@ public partial class Login : System.Web.UI.Page
     protected void btnMakeAcct_Click(object sender, EventArgs e)
     {
         Response.Redirect("CreateAccount.aspx");
+    }
+    protected void tbUserName_TextChanged1(object sender, EventArgs e)
+    {
+
     }
 }
