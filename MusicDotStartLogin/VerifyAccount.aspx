@@ -14,7 +14,7 @@
 		    <h1>
         Verify your account
     </h1>
-    <p> Enter the 8 digit number from the email you recieved.</p>
+    <p> Enter the 4 digit number from the email you recieved.</p>
     <form id="form1" runat="server">
     <div>
     

@@ -29,7 +29,7 @@
     <p>
         Once you submit, an email will be sent to your account.</p>
     <p>
-        This email will contain an 8 digit number.</p>
+        This email will contain an 4 digit number.</p>
     <p>
         Once you have recieved this email, log in and enter the number to verify your account.</p>
     <p>

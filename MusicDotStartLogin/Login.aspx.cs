@@ -103,7 +103,9 @@ public partial class Login : System.Web.UI.Page
     private void LoggedIn(string username)
     {
 
-        MsgBox("logged in as " + username, this.Page, this);
+        //MsgBox("logged in as " + username, this.Page, this);
+        StaticUtil.globalUser = username;
+        Response.Redirect("Homepage.aspx");
 
     }
 
