@@ -15,6 +15,9 @@
     <div>
 
     </div>
+        <p>
+            <asp:Button ID="btnUpload" runat="server" OnClick="btnUpload_Click" Text="Upload" />
+        </p>
     </form>
 </body>
 </html>

@@ -13,6 +13,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using System.IO;
 
 /// <summary>
 /// Summary description for StaticUtil
@@ -21,6 +22,10 @@ public static class StaticUtil
 {
 
     public static string globalUser;
+
+    static string[] mediaExtensions = {   ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA" }; //etc
+
+
 
     public static string Username
     {
@@ -235,6 +240,75 @@ public static class StaticUtil
             StaticUtil.MyConnection.Close();
         }  
 
+    }
+
+    public static bool UploadFile(string path, ref byte[] data, string name, int owner)
+    {
+        bool success = false;
+        try
+        {
+            if (!IsAudioFile(path)) throw new Exception("This is not a supported file type.");
+            //byte[] data = File.ReadAllBytes(path);
+            MyConnection.ConnectionString = ConnectionString;
+            StaticUtil.MyConnection.Open();
+            string insert_audio = "INSERT INTO audio (name, data, owner) VALUES (@name, @data, @owner)";
+            SqlCommand Command = new SqlCommand(insert_audio, StaticUtil.MyConnection);
+            Command.Parameters.AddWithValue("@name", name);
+            Command.Parameters.AddWithValue("@data", data);
+            Command.Parameters.AddWithValue("@owner", owner);
+            Command.ExecuteNonQuery();
+            success = true;
+        }
+        catch(Exception ex)
+        {
+
+        }
+        finally
+        {
+            MyConnection.Close();
+        }
+        return success;
+    }
+
+
+    static bool IsAudioFile(string path)
+    {
+        return -1 != Array.IndexOf(mediaExtensions, Path.GetExtension(path).ToUpperInvariant());
+    }
+
+    public static int GetUserID(string user)
+    {
+        int id = -1;
+        MyConnection.ConnectionString = ConnectionString;
+        string selectuser = "SELECT uID FROM users WHERE uUsername = @uUsername";
+        SqlCommand Command = new SqlCommand();
+        SqlDataReader MyReader = default(SqlDataReader);
+        string result = null;
+        try
+        {
+            StaticUtil.MyConnection.Open();
+            //then authenticate user
+            //add hashing
+            Command = new SqlCommand(selectuser, StaticUtil.MyConnection);
+            Command.Parameters.AddWithValue("@uUsername", user);
+            MyReader = Command.ExecuteReader(CommandBehavior.SingleRow);
+            if (MyReader.Read())
+            {
+                id = (int)MyReader["uId"];    
+            }
+        }
+        catch (SqlException ex)
+        {
+
+            //what here
+
+        }
+        finally
+        {
+            StaticUtil.MyConnection.Close();
+        }
+
+        return id;
     }
 
 

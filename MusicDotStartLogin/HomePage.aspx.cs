@@ -11,4 +11,8 @@ public partial class HomePage : System.Web.UI.Page
     {
         lblUser.Text = StaticUtil.globalUser;
     }
+    protected void btnUpload_Click(object sender, EventArgs e)
+    {
+
+    }
 }
