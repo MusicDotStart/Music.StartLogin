@@ -21,7 +21,7 @@ public partial class VerifyAccount : System.Web.UI.Page
         {
             StaticUtil.MarkAccountVerified(StaticUtil.Username);
             StaticUtil.MsgBox("You've been verified!", this.Page, this);
-            //Response.Redirect("Login.aspx");
+            Response.Redirect("HomePage.aspx");
         }
         else
         {

@@ -276,6 +276,69 @@ public static class StaticUtil
         return -1 != Array.IndexOf(mediaExtensions, Path.GetExtension(path).ToUpperInvariant());
     }
 
+
+    public static bool GetData(int id, ref byte[] data)
+    {
+        bool success = false;
+        try
+        {
+            SqlDataReader MyReader = default(SqlDataReader);
+            MyConnection.ConnectionString = ConnectionString;
+            StaticUtil.MyConnection.Open();
+            string select_audio = "SELECT data FROM audio WHERE id = @id"; 
+            SqlCommand Command = new SqlCommand(select_audio, StaticUtil.MyConnection);
+            Command.Parameters.AddWithValue("@id", id);
+            MyReader = Command.ExecuteReader(CommandBehavior.SingleRow);
+            if (MyReader.Read())
+            {
+                data = (byte[])MyReader["data"];
+            }
+            success = true;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            MyConnection.Close();
+        }
+        return success;
+    }
+
+
+
+    public static int GeRandomDataID()
+    {
+        int id = -1;
+        MyConnection.ConnectionString = ConnectionString;
+        string selectuser = "SELECT TOP 1 id FROM audio ORDER BY NEWID()";
+        SqlCommand Command = new SqlCommand();
+        SqlDataReader MyReader = default(SqlDataReader);
+        try
+        {
+            StaticUtil.MyConnection.Open();
+            //then authenticate user
+            //add hashing
+            Command = new SqlCommand(selectuser, StaticUtil.MyConnection);
+            MyReader = Command.ExecuteReader(CommandBehavior.SingleRow);
+            if (MyReader.Read())
+            {
+                id = (int)MyReader["Id"];
+            }
+        }
+        catch (SqlException ex)
+        {
+
+        }
+        finally
+        {
+            StaticUtil.MyConnection.Close();
+        }
+
+        return id;
+    }
+
     public static int GetUserID(string user)
     {
         int id = -1;

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<!-- 
+  Visual Studio global web project settings.
+-->
+<VisualWebDeveloper>
+
+  <comReferences>
+    <reference Name="interop.wmplib" ID="{6BF52A50-394A-11D3-B153-00C04F79FAA6}\1.0\0"/>
+  </comReferences>
+</VisualWebDeveloper>

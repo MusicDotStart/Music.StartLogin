@@ -18,7 +18,7 @@ public partial class Upload : System.Web.UI.Page
         //StaticUtil.UploadFile("C:\\t1.wma", "test");
 
         // for testing -- remove
-        StaticUtil.globalUser = "amc";
+       // StaticUtil.globalUser = "amc";
  
         user = StaticUtil.globalUser;
 
