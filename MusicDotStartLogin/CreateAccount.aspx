@@ -23,6 +23,8 @@
         <asp:TextBox ID="tbUserName" runat="server" value ="Username" onfocus="UserFocused(this)"></asp:TextBox></p>
     <p>
         <asp:TextBox ID="tbPassword" runat="server" TextMode="Password" value="password" onfocus="PasswordFocused(this)"></asp:TextBox></p>
+                
+        <asp:TextBox ID="tbPassword2" runat="server" TextMode="Password" value="password" onfocus="Password2Focused(this)"></asp:TextBox>
         <p>
             <asp:TextBox ID="tbAddress" runat="server" Width="354px" value="Email Address" onfocus="AddressFocused(this)"></asp:TextBox>
         </p>
