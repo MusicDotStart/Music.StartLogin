@@ -15,6 +15,7 @@ public partial class CreateAccount : System.Web.UI.Page
 
     public void checkUName(object sender, EventArgs e)
     {
+        string uname = tbUserName.Text.Trim();
         StaticUtil.MyConnection.ConnectionString = StaticUtil.ConnectionString;
         string selectusers = "SELECT uUsername FROM users";
         SqlCommand Command = new SqlCommand();
@@ -31,13 +32,39 @@ public partial class CreateAccount : System.Web.UI.Page
             while(MyReader.Read())
             {
                 result = (string)MyReader["uUsername"];                
-                if(result == tbUserName.Text.Trim())
+                if(result == uname)
                 {
                     StaticUtil.MsgBox("Username already exist. Try Again.", this.Page, this);
                     return;
                 }
                
             }
+            if (!StaticUtil.UserReqmet(uname))
+            {
+                StaticUtil.MsgBox("Username needs to be at least 5 characters. Try Again.", this.Page, this);
+                return;
+            }
+
+            if (!StaticUtil.PasswordReqMet(tbPassword.Text.Trim()))
+            {
+                StaticUtil.MsgBox("Password must contain a capital and a number or one of !@#$%^&. Try Again.", this.Page, this);
+                return;
+            }
+
+            if(tbPassword2.Text.Trim() != tbPassword.Text.Trim())
+            {
+                StaticUtil.MsgBox("Passwords must match. Try Again.", this.Page, this);
+                return;
+            }
+
+
+            if (!StaticUtil.ValidateEmail(tbAddress.Text.Trim()))
+            {
+                StaticUtil.MsgBox("Please enter a valid email address. Try Again.", this.Page, this);
+                return;
+            }
+
+
             StaticUtil.MyConnection.Close();
             //StaticUtil.MsgBox("Username Availible", this.Page, this);
             int vCode = StaticUtil.GetRandomVerifyCode();

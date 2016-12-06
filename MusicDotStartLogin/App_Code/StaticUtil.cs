@@ -247,7 +247,7 @@ public static class StaticUtil
         bool success = false;
         try
         {
-            if (!IsAudioFile(path)) throw new Exception("This is not a supported file type.");
+            if (!IsAudioFile(path, ref mediaExtensions)) throw new Exception("This is not a supported file type.");
             //byte[] data = File.ReadAllBytes(path);
             MyConnection.ConnectionString = ConnectionString;
             StaticUtil.MyConnection.Open();
@@ -271,10 +271,15 @@ public static class StaticUtil
     }
 
 
-    static bool IsAudioFile(string path)
+
+    static bool IsAudioFile(string path, ref string[] fileExtensions)
     {
-        return -1 != Array.IndexOf(mediaExtensions, Path.GetExtension(path).ToUpperInvariant());
+        return -1 != Array.IndexOf(fileExtensions, Path.GetExtension(path).ToUpperInvariant());
     }
+
+
+
+
 
 
     public static bool GetData(int id, ref byte[] data)
@@ -390,7 +395,21 @@ public static class StaticUtil
     {
         bool met = false;
 
+
+
+        met = true;
         return met;
+    }
+
+
+    public static bool ValidateEmail(string email)
+    {
+        try
+        {
+            var address = new System.Net.Mail.MailAddress(email);
+            return address.Address == email;
+        }
+        catch { return false; }
     }
 
 
