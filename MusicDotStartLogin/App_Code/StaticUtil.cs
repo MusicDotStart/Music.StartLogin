@@ -23,7 +23,7 @@ public static class StaticUtil
 
     public static string globalUser;
 
-    static string[] mediaExtensions = {   ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA" }; //etc
+    static string[] mediaExtensions = {  ".MP3" }; //etc
 
 
 

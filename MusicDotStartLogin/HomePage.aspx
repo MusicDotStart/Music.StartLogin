@@ -26,20 +26,22 @@
                     </p>
                     <p>
                         &nbsp;
+
+
                     </p>
 
                     <br />
+                   <audio controls style="height: 21px; width: 275px" runat="server" id="AudioPlayer" autoplay >                  
+   
+                   </audio>
 
-                    <audio controls>
-                        <source src="horse.ogg" type="audio/ogg">
-                        <source src="horse.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
                 </form>
             </td>
         </tr>
 
     </table>
     <script type="text/javascript" src="Play.js"></script>
+
+ 
 </body>
 </html>
