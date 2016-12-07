@@ -8,6 +8,14 @@
     <title></title>
 </head>
 <body>
+    <ul>
+        <li><a class="active" href="#home">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="Upload.aspx">Upload</a></li>
+        <li style="float: right"><a href="#about">About</a></li>
+    </ul>
+
     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
         <tr>
             <td style="text-align: center">
@@ -31,11 +39,14 @@
                     </p>
 
                     <br />
-                   <audio controls style="height: 21px; width: 275px" runat="server" id="AudioPlayer" autoplay >                  
+                   <audio controls style="height: 21px; width: 275px" runat="server" id="AudioPlayer" autoplay  >                  
    
                    </audio>
 
-                </form>
+                    <asp:Button ID="btnLike" runat="server" Text="Like" OnClick="btnLike_Click" OnClientClick="return false;" />
+                    <asp:Button ID="btnNope" runat="server" Text="Nope" OnClick="btnNope_Click" />
+
+                    </form>
             </td>
         </tr>
 

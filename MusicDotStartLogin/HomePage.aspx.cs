@@ -11,16 +11,16 @@ using WMPLib; //Add this COM Component Reference to your project
 public partial class HomePage : System.Web.UI.Page
 {
 
-    WMPLib.WindowsMediaPlayer Player;
+    int playing;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-       // StaticUtil.globalUser = "amc";
+        StaticUtil.globalUser = "amc";
 
 
         lblUser.Text = StaticUtil.globalUser;
-
         PlayRandomMusic();
+
 
 
     }
@@ -36,7 +36,8 @@ public partial class HomePage : System.Web.UI.Page
 
 
         byte[] data = { };
-        StaticUtil.GetData(StaticUtil.GeRandomDataID(), ref data);
+        this.playing = StaticUtil.GeRandomDataID();
+        StaticUtil.GetData(playing, ref data);
         // Stream stream = new MemoryStream(data);
         //ScriptManager.RegisterStartupScript(this, typeof(Page), "Passing", String.Format("playByteArray('{0}');", data), false);    
         //string tempPath = Path.GetTempFileName();
@@ -72,7 +73,49 @@ public partial class HomePage : System.Web.UI.Page
         {
             return "data:audio/mp3;base64," + Convert.ToBase64String(bytes);
         }
-        
+
+
+
+
+
+
+
+
+    protected void btnLike_Click(object sender, EventArgs e)
+    {
+        react(StaticUtil.GetUserID(StaticUtil.globalUser), playing, 1); //hard coded.                
+    }
+
+
+    protected void react(int user, int playing, int how)
+    {
+        using (MusicDotStartEntities obj = new MusicDotStartEntities())
+        {
+            reaction1 r = new reaction1();
+            r.who = user;
+            r.what = playing;
+            r.how = how;
+            obj.reactions1.Add(r);
+            obj.SaveChanges();
+        }
+    }
+
+
+
+    protected void btnNope_Click(object sender, EventArgs e)
+    {
+        react(StaticUtil.GetUserID(StaticUtil.globalUser), this.playing, 0); 
+    }
+
+
+    private void PlayNextRandomTrack()
+    {
+        //do things here
+        PlayRandomMusic();
+        //do things here
+    }
+    
+
 
 
 

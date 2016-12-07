@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MusicDotStartModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="audio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="genre" Type="int" />
+          <Property Name="demo" Type="int" />
+          <Property Name="owner" Type="int" />
+          <Property Name="guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="data" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="genres">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="genre" Type="text" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MusicDotStart.dbo.Organization' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="genre" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" Nullable="false" />
+          <Property Name="genre" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="reaction" Type="text" Nullable="false" />
+        </EntityType>
+        <EntityType Name="reactions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="who" Type="int" Nullable="false" />
+          <Property Name="what" Type="int" Nullable="false" />
+          <Property Name="how" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="uId" />
+          </Key>
+          <Property Name="uId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uUserName" Type="varchar(max)" Nullable="false" />
+          <Property Name="uPassword" Type="varchar(max)" Nullable="false" />
+          <Property Name="uNameFirst" Type="varchar(max)" />
+          <Property Name="uNameLast" Type="varchar(max)" />
+          <Property Name="uType" Type="varchar(max)" Nullable="false" />
+          <Property Name="uNotifyMeAddress" Type="varchar(max)" Nullable="false" />
+          <Property Name="uVerifyCode" Type="int" />
+          <Property Name="uName" Type="varchar(max)" />
+          <Property Name="uAssociation" Type="int" />
+        </EntityType>
+        <Association Name="fk_audio_genre">
+          <End Role="genres" Type="Self.genres" Multiplicity="0..1" />
+          <End Role="audio" Type="Self.audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genres">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="audio">
+              <PropertyRef Name="genre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_audio_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="audio" Type="Self.audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="uId" />
+            </Principal>
+            <Dependent Role="audio">
+              <PropertyRef Name="owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_how">
+          <End Role="reaction" Type="Self.reaction" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reaction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="how" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_what">
+          <End Role="audio" Type="Self.audio" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="audio">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="what" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_who">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="uId" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="who" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicDotStartModelStoreContainer">
+          <EntitySet Name="audio" EntityType="Self.audio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="genres" EntityType="Self.genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reaction" EntityType="Self.reaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reactions" EntityType="Self.reactions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Organization" EntityType="Self.Organization" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Organization].[id] AS [id], 
+    [Organization].[name] AS [name], 
+    [Organization].[genre] AS [genre]
+    FROM [dbo].[Organization] AS [Organization]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_audio_genre" Association="Self.fk_audio_genre">
+            <End Role="genres" EntitySet="genres" />
+            <End Role="audio" EntitySet="audio" />
+          </AssociationSet>
+          <AssociationSet Name="fk_audio_users" Association="Self.fk_audio_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="audio" EntitySet="audio" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_how" Association="Self.fk_reactions_how">
+            <End Role="reaction" EntitySet="reaction" />
+            <End Role="reactions" EntitySet="reactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_what" Association="Self.fk_reactions_what">
+            <End Role="audio" EntitySet="audio" />
+            <End Role="reactions" EntitySet="reactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_who" Association="Self.fk_reactions_who">
+            <End Role="users" EntitySet="users" />
+            <End Role="reactions" EntitySet="reactions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicDotStartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="audio">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="genre" Type="Int32" />
+          <Property Name="demo" Type="Int32" />
+          <Property Name="owner" Type="Int32" />
+          <Property Name="guid" Type="Guid" Nullable="false" />
+          <Property Name="data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="genre1" Relationship="Self.fk_audio_genre" FromRole="audio" ToRole="genres" />
+          <NavigationProperty Name="user" Relationship="Self.fk_audio_users" FromRole="audio" ToRole="users" />
+          <NavigationProperty Name="reactions" Relationship="Self.fk_reactions_what" FromRole="audio" ToRole="reactions" />
+        </EntityType>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="genre1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="audios" Relationship="Self.fk_audio_genre" FromRole="genres" ToRole="audio" />
+        </EntityType>
+        <EntityType Name="reaction">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="reaction1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="reactions" Relationship="Self.fk_reactions_how" FromRole="reaction" ToRole="reactions" />
+        </EntityType>
+        <EntityType Name="reaction1">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="who" Type="Int32" Nullable="false" />
+          <Property Name="what" Type="Int32" Nullable="false" />
+          <Property Name="how" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="audio" Relationship="Self.fk_reactions_what" FromRole="reactions" ToRole="audio" />
+          <NavigationProperty Name="reaction" Relationship="Self.fk_reactions_how" FromRole="reactions" ToRole="reaction" />
+          <NavigationProperty Name="user" Relationship="Self.fk_reactions_who" FromRole="reactions" ToRole="users" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="uId" />
+          </Key>
+          <Property Name="uId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uUserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uNameFirst" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="uNameLast" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="uType" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uNotifyMeAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uVerifyCode" Type="Int32" />
+          <Property Name="uName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="uAssociation" Type="Int32" />
+          <NavigationProperty Name="audios" Relationship="Self.fk_audio_users" FromRole="users" ToRole="audio" />
+          <NavigationProperty Name="reactions" Relationship="Self.fk_reactions_who" FromRole="users" ToRole="reactions" />
+        </EntityType>
+        <EntityType Name="Organization">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="name" />
+            <PropertyRef Name="genre" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="genre" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_audio_genre">
+          <End Role="genres" Type="Self.genre" Multiplicity="0..1" />
+          <End Role="audio" Type="Self.audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genres">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="audio">
+              <PropertyRef Name="genre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_audio_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="audio" Type="Self.audio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="uId" />
+            </Principal>
+            <Dependent Role="audio">
+              <PropertyRef Name="owner" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_what">
+          <End Role="audio" Type="Self.audio" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reaction1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="audio">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="what" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_how">
+          <End Role="reaction" Type="Self.reaction" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reaction1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="reaction">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="how" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_reactions_who">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="reactions" Type="Self.reaction1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="uId" />
+            </Principal>
+            <Dependent Role="reactions">
+              <PropertyRef Name="who" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MusicDotStartEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="audios" EntityType="Self.audio" />
+          <EntitySet Name="genres" EntityType="Self.genre" />
+          <EntitySet Name="reactions" EntityType="Self.reaction" />
+          <EntitySet Name="reactions1" EntityType="Self.reaction1" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="Organizations" EntityType="Self.Organization" />
+          <AssociationSet Name="fk_audio_genre" Association="Self.fk_audio_genre">
+            <End Role="genres" EntitySet="genres" />
+            <End Role="audio" EntitySet="audios" />
+          </AssociationSet>
+          <AssociationSet Name="fk_audio_users" Association="Self.fk_audio_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="audio" EntitySet="audios" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_what" Association="Self.fk_reactions_what">
+            <End Role="audio" EntitySet="audios" />
+            <End Role="reactions" EntitySet="reactions1" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_how" Association="Self.fk_reactions_how">
+            <End Role="reaction" EntitySet="reactions" />
+            <End Role="reactions" EntitySet="reactions1" />
+          </AssociationSet>
+          <AssociationSet Name="fk_reactions_who" Association="Self.fk_reactions_who">
+            <End Role="users" EntitySet="users" />
+            <End Role="reactions" EntitySet="reactions1" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicDotStartModelStoreContainer" CdmEntityContainer="MusicDotStartEntities">
+          <EntitySetMapping Name="audios">
+            <EntityTypeMapping TypeName="MusicDotStartModel.audio">
+              <MappingFragment StoreEntitySet="audio">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+                <ScalarProperty Name="demo" ColumnName="demo" />
+                <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="data" ColumnName="data" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="genres">
+            <EntityTypeMapping TypeName="MusicDotStartModel.genre">
+              <MappingFragment StoreEntitySet="genres">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="genre1" ColumnName="genre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reactions">
+            <EntityTypeMapping TypeName="MusicDotStartModel.reaction">
+              <MappingFragment StoreEntitySet="reaction">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="reaction1" ColumnName="reaction" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reactions1">
+            <EntityTypeMapping TypeName="MusicDotStartModel.reaction1">
+              <MappingFragment StoreEntitySet="reactions">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="who" ColumnName="who" />
+                <ScalarProperty Name="what" ColumnName="what" />
+                <ScalarProperty Name="how" ColumnName="how" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MusicDotStartModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="MusicDotStartModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="uId" ColumnName="uId" />
+                <ScalarProperty Name="uUserName" ColumnName="uUserName" />
+                <ScalarProperty Name="uPassword" ColumnName="uPassword" />
+                <ScalarProperty Name="uNameFirst" ColumnName="uNameFirst" />
+                <ScalarProperty Name="uNameLast" ColumnName="uNameLast" />
+                <ScalarProperty Name="uType" ColumnName="uType" />
+                <ScalarProperty Name="uNotifyMeAddress" ColumnName="uNotifyMeAddress" />
+                <ScalarProperty Name="uVerifyCode" ColumnName="uVerifyCode" />
+                <ScalarProperty Name="uName" ColumnName="uName" />
+                <ScalarProperty Name="uAssociation" ColumnName="uAssociation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Organizations">
+            <EntityTypeMapping TypeName="MusicDotStartModel.Organization">
+              <MappingFragment StoreEntitySet="Organization">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="genre" ColumnName="genre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -21,6 +21,9 @@
                     <asp:FileUpload ID="btnBrowse" runat="server" style="margin-left: 0px" Width="88px" />
                     <br />
                     <br />
+                    <asp:ListBox ID="lbGenres" runat="server" Height="110px"></asp:ListBox>
+                    <br />
+                    <br />
                     <asp:Label ID="lblStatus" runat="server" Text="No file selected" ForeColor="White"></asp:Label>
                     <br />
                     <br />

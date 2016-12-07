@@ -10,7 +10,15 @@ public partial class Upload : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        lbGenres.SelectionMode = ListSelectionMode.Single;
+        using (MusicDotStartEntities obj = new MusicDotStartEntities())
+        {
+           IQueryable<string> genres = obj.genres.Select(s => s.genre1);
+            foreach(var genre in genres)
+            {
+                lbGenres.Items.Add(genre.ToString());
+            }
+        }
     }
     protected void btnUpload_Click(object sender, EventArgs e)
     {
@@ -18,7 +26,7 @@ public partial class Upload : System.Web.UI.Page
         //StaticUtil.UploadFile("C:\\t1.wma", "test");
 
       //  for testing -- remove
-       // StaticUtil.globalUser = "amc";
+        StaticUtil.globalUser = "amc";
  
         user = StaticUtil.globalUser;
 
@@ -32,6 +40,11 @@ public partial class Upload : System.Web.UI.Page
             StaticUtil.MsgBox("Please name your track.", this.Page, this);
             return;
         }
+        if(lbGenres.SelectedValue == string.Empty)
+        {
+            StaticUtil.MsgBox("Please select a genre.", this.Page, this);
+            return;
+        }
         if (btnBrowse.HasFile)
         {
             try
@@ -40,7 +53,7 @@ public partial class Upload : System.Web.UI.Page
                 BinaryReader br = new BinaryReader(fs);
                 byte[] bytes = br.ReadBytes((Int32)fs.Length);
                 string filename = Path.GetFileName(btnBrowse.FileName);
-                if (!StaticUtil.UploadFile(btnBrowse.FileName, ref bytes ,tbName.Text.Trim(), userID)) throw new Exception();
+                if (!StaticUtil.UploadFile(btnBrowse.FileName, ref bytes ,tbName.Text.Trim(), userID, lbGenres.SelectedValue)) throw new Exception();
                 lblStatus.Text = "Upload status: File uploaded!";
             }
             catch (Exception ex)

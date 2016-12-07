@@ -242,20 +242,26 @@ public static class StaticUtil
 
     }
 
-    public static bool UploadFile(string path, ref byte[] data, string name, int owner)
+    public static bool UploadFile(string path, ref byte[] data, string name, int owner, string genre)
     {
         bool success = false;
+        int id;
         try
         {
-            if (!IsAudioFile(path, ref mediaExtensions)) throw new Exception("This is not a supported file type.");
+            using (MusicDotStartEntities obj = new MusicDotStartEntities())
+            {
+               id  = obj.genres.Where(g => g.genre1 == genre).Select(i => i.id).FirstOrDefault();
+            }
+                if (!IsAudioFile(path, ref mediaExtensions)) throw new Exception("This is not a supported file type.");
             //byte[] data = File.ReadAllBytes(path);
             MyConnection.ConnectionString = ConnectionString;
             StaticUtil.MyConnection.Open();
-            string insert_audio = "INSERT INTO audio (name, data, owner) VALUES (@name, @data, @owner)";
+            string insert_audio = "INSERT INTO audio (name, data, owner, genre) VALUES (@name, @data, @owner, @genre)";
             SqlCommand Command = new SqlCommand(insert_audio, StaticUtil.MyConnection);
             Command.Parameters.AddWithValue("@name", name);
             Command.Parameters.AddWithValue("@data", data);
             Command.Parameters.AddWithValue("@owner", owner);
+            Command.Parameters.AddWithValue("genre", id);
             Command.ExecuteNonQuery();
             success = true;
         }
@@ -394,10 +400,7 @@ public static class StaticUtil
     public static bool UserReqmet(string u)
     {
         bool met = false;
-
-
-
-        met = true;
+        met = true;//impl me
         return met;
     }
 

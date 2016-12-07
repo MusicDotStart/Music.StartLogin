@@ -11,3 +11,8 @@ function play(audioBuffer) {
     source.connect(context.destination);
     source.start(0);
 }
+
+function cancel()
+{
+    return false;
+}

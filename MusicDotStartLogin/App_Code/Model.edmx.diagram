@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0da6ac2764e44243828dc191411a55e3" Name="Diagram1">
+        <EntityTypeShape EntityType="MusicDotStartModel.audio" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.genre" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.reaction" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.reaction1" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.sysdiagram" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.user" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MusicDotStartModel.Organization" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MusicDotStartModel.fk_audio_genre" ManuallyRouted="false" />
+        <AssociationConnector Association="MusicDotStartModel.fk_audio_users" ManuallyRouted="false" />
+        <AssociationConnector Association="MusicDotStartModel.fk_reactions_what" ManuallyRouted="false" />
+        <AssociationConnector Association="MusicDotStartModel.fk_reactions_how" ManuallyRouted="false" />
+        <AssociationConnector Association="MusicDotStartModel.fk_reactions_who" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
