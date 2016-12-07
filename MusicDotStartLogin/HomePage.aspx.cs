@@ -49,7 +49,10 @@ public partial class HomePage : System.Web.UI.Page
         string uri = GetDataURL(data);
         AudioPlayer.Src = uri; //;//"C:\\Users\\Aaron Cox\\AppData\\Local\\Temp\\audio.mp3";//tempPath;  
 
-            
+        if((StaticUtil.trackname != null))// && (StaticUtil.trackowner.Length > 0))
+        {
+            lblInfo.Text = StaticUtil.trackname + " by " + "Aaron Cox"; //StaticUtil.trackowner;
+        }   
 
 
 

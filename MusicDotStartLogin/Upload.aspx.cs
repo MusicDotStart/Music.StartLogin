@@ -8,8 +8,11 @@ using System.IO;
 
 public partial class Upload : System.Web.UI.Page
 {
+
+   
     protected void Page_Load(object sender, EventArgs e)
     {
+        StaticUtil.globalUser = "amc";
         lbGenres.SelectionMode = ListSelectionMode.Single;
         using (MusicDotStartEntities obj = new MusicDotStartEntities())
         {
@@ -26,7 +29,7 @@ public partial class Upload : System.Web.UI.Page
         //StaticUtil.UploadFile("C:\\t1.wma", "test");
 
       //  for testing -- remove
-        StaticUtil.globalUser = "amc";
+        
  
         user = StaticUtil.globalUser;
 

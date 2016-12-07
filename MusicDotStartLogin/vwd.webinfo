@@ -7,4 +7,12 @@
   <comReferences>
     <reference Name="interop.wmplib" ID="{6BF52A50-394A-11D3-B153-00C04F79FAA6}\1.0\0"/>
   </comReferences>
+
+  <StartupServices>
+    
+  
+    
+  
+    <Service ID="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}"/>
+  </StartupServices>
 </VisualWebDeveloper>

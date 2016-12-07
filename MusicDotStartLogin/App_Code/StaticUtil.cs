@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Security.Cryptography;
 using System.Data.SqlClient;
 using System.Text;
 using System.Data;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
 using System.IO;
+using System.Web;
 
 /// <summary>
 /// Summary description for StaticUtil
@@ -21,8 +18,10 @@ using System.IO;
 public static class StaticUtil
 {
 
+    
     public static string globalUser;
-
+    public static string trackname;
+    public static string trackowner;
     static string[] mediaExtensions = {  ".MP3" }; //etc
 
 
@@ -252,7 +251,7 @@ public static class StaticUtil
             {
                id  = obj.genres.Where(g => g.genre1 == genre).Select(i => i.id).FirstOrDefault();
             }
-                if (!IsAudioFile(path, ref mediaExtensions)) throw new Exception("This is not a supported file type.");
+            if (!IsAudioFile(path, ref mediaExtensions)) throw new Exception("This is not a supported file type.");
             //byte[] data = File.ReadAllBytes(path);
             MyConnection.ConnectionString = ConnectionString;
             StaticUtil.MyConnection.Open();
@@ -267,7 +266,7 @@ public static class StaticUtil
         }
         catch(Exception ex)
         {
-
+            
         }
         finally
         {
@@ -296,13 +295,15 @@ public static class StaticUtil
             SqlDataReader MyReader = default(SqlDataReader);
             MyConnection.ConnectionString = ConnectionString;
             StaticUtil.MyConnection.Open();
-            string select_audio = "SELECT data FROM audio WHERE id = @id"; 
+            string select_audio = "SELECT data, owner, name FROM audio WHERE id = @id"; 
             SqlCommand Command = new SqlCommand(select_audio, StaticUtil.MyConnection);
             Command.Parameters.AddWithValue("@id", id);
             MyReader = Command.ExecuteReader(CommandBehavior.SingleRow);
             if (MyReader.Read())
             {
                 data = (byte[])MyReader["data"];
+                trackname = (string)MyReader["name"];
+                //trackowner = (string)MyReader["owner"];
             }
             success = true;
         }
@@ -357,7 +358,6 @@ public static class StaticUtil
         string selectuser = "SELECT uID FROM users WHERE uUsername = @uUsername";
         SqlCommand Command = new SqlCommand();
         SqlDataReader MyReader = default(SqlDataReader);
-        string result = null;
         try
         {
             StaticUtil.MyConnection.Open();
@@ -373,15 +373,12 @@ public static class StaticUtil
         }
         catch (SqlException ex)
         {
-
-            //what here
-
+            
         }
         finally
         {
             StaticUtil.MyConnection.Close();
         }
-
         return id;
     }
 
@@ -405,15 +402,47 @@ public static class StaticUtil
     }
 
 
-    public static bool ValidateEmail(string email)
+    public static bool ValidateEmail(string input)
     {
         try
         {
-            var address = new System.Net.Mail.MailAddress(email);
-            return address.Address == email;
+            var r = new System.Net.Mail.MailAddress(input);
+            return r.Address == input;
         }
-        catch { return false; }
+        catch (Exception ex)
+        {
+            //alert?
+            return false;
+        }
     }
+
+    //Cookies no implemeneted
+    //Copied and Modified -> Credit to: 
+    //https://msdn.microsoft.com/en-us/library/78c837bd.aspx?cs-save-lang=1&cs-lang=csharp#code-snippet-2
+    public static void DeleteCookie(Page page)
+    {
+        
+        if (page.Request.Cookies["UserSettings"] != null)
+        {
+            HttpCookie myCookie = new HttpCookie("UserSettings");
+            myCookie.Expires = DateTime.Now.AddDays(-1d);
+            page.Response.Cookies.Add(myCookie);
+        }
+    }
+
+    public static void BakeCookie(Page page, string user)
+    {
+        // myCookie.Expires = DateTime.Now.AddDays(1d);
+        // myCookie["Token"] = //
+        //Response.Cookies.Add(myCookie);
+    }
+        
+
+    //end credit
+        
+
+
+
 
 
 

@@ -5,7 +5,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <link href="master.css" rel="stylesheet" />
 <head runat="server">
-    <title></title>
+    <title>Upload</title>
+    <ul>
+        <li><a href="HomePage.aspx">Home</a></li>
+        <li><a href="">News</a></li>
+        <li><a href="">Contact</a></li>
+        <li><a class="active"  href="Upload.aspx">Upload</a></li>
+        <li><a href="FAQ.pdf">Help</a></li>
+        <li style="float: right"><a href="Logout.aspx">Logout</a></li>
+        <li style="float: right"><a href="Account.aspx">My Account</a></li>        
+    </ul>
 </head>
 <body>
     <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
